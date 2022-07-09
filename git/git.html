@@ -1,0 +1,111 @@
+<!-- 
+    1 git是分布式版本控制系统，没有账号和密码 所以：
+    安装完成后先注册名字和邮箱：git config --global user.name 'yourname'
+                              git config --global user.email 'youremail'
+    查看自己的姓名和邮箱： git config user.name 
+                          git config user.email                        
+    2 常见命令(了解)：
+        mkdir xxx
+        vi x.txt
+            esc + : + wq
+            esc + : + q! 退出不保存
+            cd xxx 进入xxx目录
+            cd.. 返回上一级目录
+            ls 列出当前文件夹中所有文件
+            pwd 显示当前目录
+            cat x.txt 显示文件内容
+            clear
+    3 三大区 *****************************
+        工作区：项目文件夹  进行：增、删、改的区域 -> git add x.xx
+        暂存区：暂时保存  即将提交给git进行版本管理 -> git commit -m 'xxxxx'
+        版本区：已经被git版本控制了      
+    4 创建版本库 ****************************************
+        1) git init 初始化版本库 
+        2) git add .
+            警告解决方案：git config --global core.autocrlf flase
+        3) git status 查看工作区中文件的工作状态
+        4）git commit -m 'xxxxx'    
+    5 差异对比(了解)
+        git diff：比较暂存区和工作区
+        git diff --cached：版本区与暂存区
+        git diff master：版本区与工作区
+    6 日志+版本号(日志里面记录着版本号-本次操作记录的唯一编码)：
+        git log 显示从最近到最远的所有提交日志
+        git reflog 显示每次commit的commit id 
+    7 版本回退 + 版本穿梭(几乎不用) + 版本撤销
+        git reset --hard HEAD^ 版本回退（回退一次提交）  尖可以写两次 代表回退两次 ******
+        git reset --hard Obfafd 回退到指定Obfafd的commit id版本 *******
+        git reset HEAD 用版本库中的文件替换暂存区的全部文件
+        git checkout -- x.txt 用暂存区指定文件替换工作区的指定文件（危险）
+        git checkout HEAD x.txt 用版本库中的文件替换暂存区和工作区的文件（危险）
+        git rm --cached x.txt 从暂存区删除文件
+    8 删除文件（先要经过git管理才能删）
+        git rm x.txt 删除文件
+        git rm r-xxx 删除文件夹    
+    9 分支
+        一 概念
+            1 主分支：master ---- 代码经过了开发人员单元测试，以及测试人员详细的测试通过之后  确定没问题
+            2 开发分支：dev ---- 开发人员所有的代码提交到此
+            3 测试分支：test ---- 测试人员用的（由开发人员进行单元测试的代码会放到此分支）
+            4 里程碑分支：tags ---- v1.0.0
+                第一位：大版本号
+                第二位
+                第三位：bug 1.12.4
+            测试的种类：回归测试、压力测试、性能测试、单元测试   
+        二 操作
+            git checked-b dev 创建dev分支，并切换到dev分支（站在空分支上执行此操作 操作结束后 空分支会自动删除）
+            git branch 查看当前分支
+            git checkout master 切换分支
+            git merge dev 合并dev分支到当前分支（站在当前分支操作）
+            git branch -d dev 删除指定分支
+            -----------------下面的了解
+            git diff branch1 branch2 显示出两个分支之间所有差异的文件的详细差异
+            git diff branch1 branch2 --stat 显示出两个分支之间所有有差异的文件列表
+            git diff branch1 branch2 xxx 显式指定文件的详细差异
+    10 版本冲突
+        合并分支时，如果在同一个文件，在同一个地方，都修改或新增内容会引起版本冲突
+        解决的最好的办法就是借助IDE解决，简单且高效        
+    GitHub
+        1 GitHub是一个Git项目托管网站
+        2 GitHub能够分享代码 可以将数据放到一台其他开发人员能够连接的服务器上
+        3 GitHub远程仓库的使用：
+            场景一（关联）：本地有仓库，要和远程仓库做关联
+                git init
+                git add .
+                git commit -m '****'
+                git remote add origin https://github.com/lixiang-reba/0719_demoli.git (origin是自己起的别名)
+                在GitHub创建一个远程仓库
+                备注：如果此步关联错了，解决办法如下：
+                    暴力解决：删除.git文件夹 重新建立本地仓库
+                    优雅解决：git remote remove origin 再重新关联仓库
+            场景二（推送）：本地仓库有内容 要推送给远程仓库
+                git push -u origin master
+                若电脑没记住账号和密码则：git config --global credential.helper store   
+            场景三（拉取）：本地仓库有内容 获取远程库新内容（拉取的分支要和当前所在分支一致）
+                第一种拉取方式：git pull origin master
+                将远程仓库的master分支上代码版本复制/合并到本地master分支上
+                第二种拉取方式：git fetch origin master:tmp(工作中不用)
+                新建一个tmp分支，将远程仓库的master分支上代码版本复制到tmp分支上，不会自动合并  
+            场景四（克隆）：本地无仓库，要获取一个完整的远程库
+                备注：只在第一次获取远程库时才需要克隆
+                git clone http://github.com/xxx.git (HTTP)
+                克隆后就会有git仓库 可以随时pull 但不能push因为没有别人的密码
+                删除电脑对我的github用户名和密码记忆：控制面板-用户账户-凭据管理器-重新推送（重新输入用户名和密码）
+                带有分支的克隆：克隆全部分支 但用git branch看不了  用checkout切换一次后才能看 
+                如果是download只能下载当前分支
+                带有分支的拉取：git pull
+                带有分支的推送：git push origin xxx
+        4 github其它命令：
+            issue：发评论
+            fork：复制别人的仓库到本地
+            pull request：修改了复制的仓库并告知原作者
+            pages：1.域名（在阿里云买域名）
+    总结：
+        1 git三区
+        2 版本回退
+        3 分支（创建、切换、管理、常见的分支）
+        4 git与GitHub的交互：四大场景
+        5 github网站：新建仓库、新建组织、开源项目的多人协作、公司项目的多人协作（借助组织）
+        
+
+ -->

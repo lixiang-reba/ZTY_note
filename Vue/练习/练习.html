@@ -1,0 +1,66 @@
+
+	<!DOCTYPE html>
+	<html lang="en">
+
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Document</title>
+		<script src="../js/vue.js">
+		</script>
+	</head>
+
+	<body>
+		<div id="root">
+		
+			
+		</div>
+	</body>
+	<script>
+		Vue.config.productionTip = false;
+		const hzk = Vue.extend({
+			name:'儿子',
+			template:`
+				<div>
+					<h2>姓名：{{hzk_name}}</h2>
+					<h2>年龄：{{hzk_age}}</h2>
+					
+				</div>
+			`,
+			data() {
+				return {
+					hzk_name:'华子恺',
+					hzk_age: 60
+				}
+			},
+		})
+		const lxx = Vue.extend({
+			name:'爸爸',
+			template:`
+				<div>
+					<h2>姓名：{{lxx_name}}</h2>
+					<h2>年龄：{{lxx_age}}</h2>
+					<hzk></hzk>
+				</div>
+			`,
+			data() {
+				return {
+					lxx_name:'李响',
+					lxx_age: 18
+				}
+			},
+			components:{
+				hzk
+			}
+		})
+		new Vue({
+			template:`
+				<lxx></lxx>
+			`,
+			el: '#root',
+			components:{lxx}
+		})
+	</script>
+
+	</html>

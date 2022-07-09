@@ -1,0 +1,69 @@
+
+    <!DOCTYPE html>
+    <html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+        <style>
+            #content {
+                width: 200px;
+                height: 200px;
+                background-color: red;
+                margin-top: 10px;
+            }
+        </style>
+    </head>
+
+    <body>
+        <h3>ajax小试牛刀</h3>
+        <button id='btn'>点我发送请求(原生js-ajax-get)</button>
+        <div id="content"></div>
+        <script>
+            const btn = document.querySelector('#btn')
+            const content = document.querySelector('#content')
+            // btn.onclick = () => {
+            //     // 1 创建xhr实例对象
+            //     const xhr = new XMLHttpRequest()
+            //     // on 当...时候 
+            //     // ready 准备
+            //     // state 状态
+            //     // change 改变
+            //     xhr.onreadystatechange = () => {
+            //         if(xhr.readyState == 4) {
+            //             console.log(xhr.response);
+            //             content.innerHTML = `<h3>${xhr.response}</h3>`
+            //         }
+            //     }
+            //     // 2  指定发送请求的：method、url
+            //     xhr.open('get','http://127.0.0.1:8080/test_get') 
+            //     // 3 发送请求
+            //     xhr.send()
+            // }
+            btn.onclick = () => {
+                const xhr = new XMLHttpRequest()
+                xhr.onreadystatechange = () => {
+                    if(xhr.readyState == 4 && (xhr.status >= 200 && xhr.status < 300)) {
+                        console.log(xhr.response);
+                        content.innerHTML = `<h3>${xhr.response}</h3>`
+                    }
+                }
+                xhr.open('post','http://127.0.0.1:8080/test_get')
+                xhr.setRequestHeader('content-type','application/json')
+                xhr.responseType = 'json'
+                xhr.onerror = () => {
+                    alert('error')
+                }
+                xhr.timeout = 2000
+                xhr.ontimeout = ()=>{
+					alert('网速不给力，请切换网络重试');
+				}
+                xhr.send(JSON.stringify({name:'lxx'}))
+               
+            }
+        </script>
+    </body>
+
+    </html>
