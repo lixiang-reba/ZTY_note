@@ -1,10 +1,13 @@
-const path = require('path');
+const {resolve} = require('path');
+// 用于加工html
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const baseCssLoader = ["style-loader", "css-loader"]
 // webpacl的详细配置对象
 module.exports = {
   mode: 'development',
   entry: './src/js/app.js',
   output: {
-    path: path.resolve(__dirname, 'build'),
+    path: resolve(__dirname, 'build'),
     filename: 'js/app.js',
   },
   module: {
@@ -12,12 +15,17 @@ module.exports = {
       // 配置解析css
       {
         test: /\.css$/,
-        use: ["style-loader", "css-loader"],
+        use: [...baseCssLoader],
       },
       {
         test: /\.less$/,
-        use: ["style-loader", "css-loader", "less-loader"],
+        use: [...baseCssLoader, "less-loader"],
       },
     ],
   },
+  plugins: [new HtmlWebpackPlugin(
+    {
+      template:'./src/index.html'
+    }
+  )],
 };
