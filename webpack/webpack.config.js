@@ -5,6 +5,14 @@ module.exports = {
   entry: './src/js/app.js',
   output: {
     path: path.resolve(__dirname, 'build'),
-    filename: 'app.js',
+    filename: 'js/app.js',
   },
+  // module: {
+  //   rules: [
+  //     {
+  //       test: /\.css$/,
+  //       use: ["style-loader", "css-loader"],
+  //     },
+  //   ],
+  // },
 };
