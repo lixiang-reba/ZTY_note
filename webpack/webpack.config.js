@@ -21,6 +21,19 @@ module.exports = {
         test: /\.less$/,
         use: [...baseCssLoader, "less-loader"],
       },
+      {
+        test: /\.(png|jpe?g|gif)$/i,
+        use: [
+          {
+            loader: 'url-loader',
+            options: {
+              name: '[name].[ext]',
+              outputPath: 'images',
+              limit: 8192,
+            },
+          },
+        ],
+      },
     ],
   },
   plugins: [new HtmlWebpackPlugin(
