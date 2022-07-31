@@ -28,12 +28,12 @@ export default {
 		sendStudentName() {
 			// 触发studentinfo组件实例身上的atguigu事件
 			this.$emit('atguigu', this.name, 666, 7, 888)
-			this.$emit('demo')
+			// this.$emit('demo')
 		},
 		unbind() {
-			// this.$off('atguigu')//解绑一个自定义事件
+			this.$off('atguigu')//解绑一个自定义事件
 			// this.$off(['atguigu', 'demo'])//解绑多个自定义事件
-			this.$off()//解绑所有自定义事件
+			// this.$off()//解绑所有自定义事件
 		},
 		death() {
 			this.$destroy()//销毁了当前Student组件的实例(vc)
