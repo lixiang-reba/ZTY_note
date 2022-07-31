@@ -41,6 +41,9 @@ export default {
 		}, 3000); */
 		// 绑定自定义事件（一次性）
 		// this.$refs.student.$once('atguigu', this.getStudentName)
+		// setTimeout(() => {
+		// 	this.$destroy()
+		// }, 5000);
 	},
 }
 </script>
