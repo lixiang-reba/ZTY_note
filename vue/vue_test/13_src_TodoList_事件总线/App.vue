@@ -3,7 +3,7 @@
         <div class="todo-container">
             <div class="todo-wrap">
                 <MyHeader @addOjb='addOjb' />
-                <MyList :todos='todos' :changeOjb='changeOjb' :deleteOjb='deleteOjb' />
+                <MyList :todos='todos' />
                 <MyFooter v-show="todos.length" :todos='todos' @selectAll='selectAll' @deleteAllDone='deleteAllDone' />
             </div>
         </div>
@@ -27,7 +27,7 @@ export default {
         addOjb(todoObj) {
             this.todos.unshift(todoObj)
         },
-        // gaibiandone
+        // 勾选
         changeOjb(id) {
             this.todos.forEach(todo => {
                 if (todo.id === id) {
@@ -52,7 +52,15 @@ export default {
                 localStorage.setItem('todos', JSON.stringify(value))
             }
         }
-    }
+    },
+    mounted() {
+        this.$bus.$on('deleteOjb', this.deleteOjb)
+        this.$bus.$on('changeOjb', this.changeOjb)
+    },
+    beforeDestroy() {
+        this.$bus.$off('deleteOjb')
+        this.$bus.$off('changeOjb')
+    },
 }
 </script>
 

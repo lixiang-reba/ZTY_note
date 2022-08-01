@@ -11,14 +11,14 @@
 <script>
 export default {
     name: 'MyItem',
-    props: ['todo', 'changeOjb', 'deleteOjb'],
+    props: ['todo'],
     methods: {
         changeDone(id) {
-            this.changeOjb(id)
+            this.$bus.$emit('changeOjb', id)
         },
         deleteTodo(id) {
             if (confirm('确认删除吗？')) {
-                this.deleteOjb(id)
+                this.$bus.$emit('deleteOjb', id)
             }
         }
     }
