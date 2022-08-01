@@ -26,7 +26,7 @@ export default {
 			this.number++
 		},
 		sendStudentName() {
-			// 触发studentinfo组件实例身上的atguigu事件
+			// 触发当前实例上的事件。附加参数都会传给监听器回调。
 			this.$emit('atguigu', this.name, 666, 7, 888)
 			// this.$emit('demo')
 		},

@@ -6,7 +6,7 @@
     "moduleResolution": "node",
     "paths": {
       "@/*": [
-        "src/*"
+        "11_src_TodoList_自定义事件/*"
       ]
     },
     "lib": [

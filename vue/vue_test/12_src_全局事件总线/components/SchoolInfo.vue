@@ -14,6 +14,14 @@ export default {
 			address: '北京',
 		}
 	},
+	mounted() {
+		this.$bus.$on('showStuName', (StuName) => {
+			console.log(StuName);
+		})
+	},
+	beforeDestroy() {
+		this.$bus.$off('showStuName')
+	},
 }
 </script>
 <style scoped>
