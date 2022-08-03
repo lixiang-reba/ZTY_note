@@ -3,10 +3,10 @@
         <label>
             <input type="checkbox" :checked='todo.done' @change="changeDone(todo.id)" />
             <span v-show="!todo.isEdit">{{ todo.title }}</span>
-            <input type="text" :value="todo.title" v-show="todo.isEdit">
+            <input type="text" :value="todo.title" v-show="todo.isEdit" @blur="exitEdit(todo, $event)" ref="input">
         </label>
         <button class="btn btn-danger" @click="delectTodo">删除</button>
-        <button class="btn btn-edit" @click='editTodo(todo)'>编辑</button>
+        <button class="btn btn-edit" v-show="!todo.isEdit" @click="editTodo(todo, $event)">编辑</button>
     </li>
 </template>
 
@@ -23,8 +23,21 @@ export default {
         changeDone(id) {
             this.$bus.$emit('changeDone', id)
         },
-        editTodo(todo) {
-            this.$set(todo, 'isEdit', true)
+        // 添加编辑属性
+        editTodo(todo, e) {
+            if (todo.hasOwnProperty('isEdit')) {
+                todo.isEdit = true
+            } else {
+                this.$set(todo, 'isEdit', true)
+            }
+            // nextTick指定的回调会在dom节点更新完毕之后再执行
+            this.$nextTick(() => { this.$refs.input.focus() })
+        },
+        // 退出编辑状态and保存修改内容
+        exitEdit(todo, e) {
+            todo.isEdit = false
+            if (!e.target.value.trim()) return alert('输入不能为空！')
+            this.$bus.$emit('saveEdit', todo.id, e.target.value)
         }
     },
 }

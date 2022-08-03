@@ -50,12 +50,23 @@ export default {
         this.$bus.$on('clearDone', () => {
             this.todos = this.todos.filter(todo => !todo.done)
         })
+        // 保存修改内容
+        this.$bus.$on('saveEdit', (id, value) => {
+            this.todos.forEach((todo) => {
+                if (todo.id == id) {
+                    todo.title = value
+                    return
+                }
+
+            })
+        })
     },
     beforeDestroy() {
         this.$bus.$unbind('addTodo')
         this.$bus.$unbind('delectTodo')
         this.$bus.$unbind('changeDone')
         this.$bus.$unbind('clearDone')
+        this.$bus.$unbind('exitEdit')
     }
 }
 </script>
