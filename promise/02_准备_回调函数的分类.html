@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>准备_回调函数的分类</title>
-</head>
-<body>
-  <script>
-    /* 
+  <head>
+    <meta charset="UTF-8" />
+    <title>准备_回调函数的分类</title>
+  </head>
+  <body>
+    <script>
+      /* 
 			前序知识：什么是回调？---我们定义的，我们没有调用，最终执行了。
 
 				1.同步的回调函数: 
@@ -17,19 +17,18 @@
 							例子: 定时器回调 / ajax回调 
     */
 
-		//演示同步的回调函数
-		/* let arr = [1,3,5,7,9]
-		arr.forEach((item)=>{
-			console.log(item);
-		})
-		console.log('主线程的代码'); */
+      //演示同步的回调函数
+      /* let arr = [1, 3, 5, 7, 9];
+      arr.forEach((item) => {
+        console.log(item);
+      });
+      console.log("主线程的代码"); */
 
-		//演示异步的回调函数
-		/* setTimeout(()=>{
+      //演示异步的回调函数
+      /* setTimeout(()=>{
 			console.log('@');
 		},2000)
 		console.log('主线程'); */
-		
-  </script>
-</body>
+    </script>
+  </body>
 </html>
