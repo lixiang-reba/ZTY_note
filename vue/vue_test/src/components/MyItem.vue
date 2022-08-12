@@ -1,40 +1,31 @@
 <template>
     <li>
         <label>
-            <!-- 如下代码也能实现功能 但不太推荐 有点违反原则 因为修改了props -->
-            <!-- <input type="checkbox" v-model="todo.done"> -->
-            <input type="checkbox" :checked='todo.done' @change="handleCheck(todo.id)" />
-            <span>{{ todo.title }}</span>
+            <input type="checkbox" v-model=todo.status />
+            <span>{{ todo.name }}</span>
         </label>
-        <button class="btn btn-danger" @click="handleDelete(todo.id)">删除</button>
+        <button class="btn btn-danger" @click="deleteTodo">删除</button>
     </li>
 </template>
 
 <script>
 export default {
     name: 'MyItem',
-    props: ['todo', 'checkTodo', "deleteTodo"],
+    props: ['todo'],
     methods: {
-        // 勾选or取消勾选
-        handleCheck(id) {
-            //通知App组件将对应todo对象的done值取反
-            this.checkTodo(id)
-        },
-        // 删除
-        handleDelete(id) {
-            if (confirm('确定删除吗？')) {
-                this.deleteTodo(id)
-            }
+        deleteTodo() {
+            this.$bus.$emit('deleteTodo', this.todo.id)
         }
     },
 }
 </script>
 
 <style scoped>
+/*item*/
 li {
     list-style: none;
-    height: 36px;
-    line-height: 36px;
+    height: 50px;
+    line-height: 40px;
     padding: 0 5px;
     border-bottom: 1px solid #ddd;
 }
@@ -53,7 +44,7 @@ li label li input {
 
 li button {
     float: right;
-    display: none;
+    /* display: none; */
     margin-top: 3px;
 }
 
@@ -63,13 +54,5 @@ li:before {
 
 li:last-child {
     border-bottom: none;
-}
-
-li:hover {
-    background-color: #ddd;
-}
-
-li:hover button {
-    display: block;
 }
 </style>

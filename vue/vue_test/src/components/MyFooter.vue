@@ -1,54 +1,37 @@
 <template>
-    <div class="todo-footer" v-show="total">
+    <div class="todo-footer">
         <label>
-            <!-- <input type="checkbox" :checked='isAll' @change="ckeckAll" /> -->
-            <input type="checkbox" v-model='isAll' />
+            <input type="checkbox" />
         </label>
         <span>
-            <span>已完成{{ doneTotal }}</span> / 全部{{ total }}
+            <span>已完成{{ haveDone }}</span> / 全部{{ todos.length }}
         </span>
-        <button class="btn btn-danger" @click="clearAll">清除已完成任务</button>
+        <button class="btn btn-danger" @click="clearDone">清除已完成任务</button>
     </div>
 </template>
 
 <script>
 export default {
     name: 'MyFooter',
-    props: ['todos', 'checkAllTodo', 'clearAllTodo'],
+    props: ['todos'],
     computed: {
-        total() {
-            return this.todos.length
-        },
-        doneTotal() {
-            // foreach方法
-            /* let i = 0
-            this.todos.forEach(todo => {
-                if (todo.done == true) i++
-            });
-            return i */
-            // filter方法
-            /* return this.todos.filter(todo => todo.done).length */
-            // reduce方法
-            return this.todos.reduce((pre, cur) => pre + (cur.done ? 1 : 0), 0)
-        },
-        isAll: {
+        // 统计已完成数目
+        haveDone: {
             get() {
-                return this.doneTotal === this.total && this.total > 0
+                return this.todos.reduce((pre, cur) => pre + (cur.status ? 1 : 0), 0)
             },
-            set(value) {
-                this.checkAllTodo(value)
-            }
         }
     },
     methods: {
-        clearAll() {
-            this.clearAllTodo()
+        clearDone() {
+            this.$bus.$emit("clearDone", this.todos)
         }
-    }
+    },
 }
 </script>
 
 <style scoped>
+/*footer*/
 .todo-footer {
     height: 40px;
     line-height: 40px;

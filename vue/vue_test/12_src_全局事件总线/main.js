@@ -10,5 +10,7 @@ new Vue({
   render: (h) => h(App),
   beforeCreate() {
     Vue.prototype.$bus = this; //安装全局事件总线
+    // 等号左边为了让所有vc、vm访问到$bus
+    // 等号右边为了能调用到$on $emit $off
   },
 });
