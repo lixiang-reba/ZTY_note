@@ -34,7 +34,7 @@ export default {
     mounted() {
         // 添加一个todo
         this.$bus.$on('addTodo', (title) => {
-            this.todos.unshift({ id: nanoid(), name: title, status: 0 })
+            this.todos.unshift({ id: nanoid(), name: title, status: 0, isEdit: 0 })
         })
         // 删除一个todo
         this.$bus.$on('deleteTodo', (todoId) => {
@@ -44,11 +44,42 @@ export default {
         this.$bus.$on("clearDone", (todos) => {
             this.todos = this.todos.filter(todo => !todo.status)
         })
+        // 编辑todo
+        this.$bus.$on("editTodo", (todoId) => {
+            this.todos.forEach((todo) => {
+                if (todo.id == todoId) {
+                    todo.isEdit = 1
+                    return
+                }
+            })
+        })
+        // 保存编辑
+        this.$bus.$on("saveEdit", (todoId, title) => {
+            this.todos.forEach((todo) => {
+                if (todo.id == todoId) {
+                    todo.isEdit = 0
+                    todo.name = title
+                    return
+                }
+            })
+        })
+        // 勾选or取消勾选
+        this.$bus.$on("changeDone", (id) => {
+            this.todos.forEach(todo => {
+                if (todo.id == id) {
+                    todo.status = !todo.status
+                    return
+                }
+            })
+        })
     },
     beforeDestroy() {
         this.$bus.$off('addTodo')
         this.$bus.$off('deleteTodo')
         this.$bus.$off('clearDone')
+        this.$bus.$off('editTodo')
+        this.$bus.$off('saveTodo')
+        this.$bus.$off('changeDone')
     },
 }
 </script>
@@ -74,6 +105,12 @@ body {
 .btn-danger {
     color: #fff;
     background-color: #da4f49;
+    border: 1px solid #bd362f;
+}
+
+.btn-edit {
+    color: #fff;
+    background-color: skyblue;
     border: 1px solid #bd362f;
 }
 

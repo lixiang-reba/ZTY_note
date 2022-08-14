@@ -1,7 +1,7 @@
 <template>
     <div class="todo-footer">
         <label>
-            <input type="checkbox" />
+            <input type="checkbox" v-model='ckeckAll' />
         </label>
         <span>
             <span>已完成{{ haveDone }}</span> / 全部{{ todos.length }}
@@ -20,6 +20,16 @@ export default {
             get() {
                 return this.todos.reduce((pre, cur) => pre + (cur.status ? 1 : 0), 0)
             },
+        },
+        // 全部勾选or取消勾选
+        ckeckAll: {
+            get() {
+                if (this.haveDone == this.todos.length) return true
+                else return false
+            },
+            set(value) {
+                this.todos.forEach(todo => todo.status = value)
+            }
         }
     },
     methods: {

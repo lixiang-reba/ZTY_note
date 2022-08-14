@@ -1,10 +1,12 @@
 <template>
     <li>
         <label>
-            <input type="checkbox" v-model=todo.status />
-            <span>{{ todo.name }}</span>
+            <input type="checkbox" :checked=todo.status @change="changeDone" />
+            <span v-show="!this.todo.isEdit">{{ todo.name }}</span>
+            <input type="text" v-show="this.todo.isEdit" :value="todo.name" ref="ipt" @blur="saveEdit(todo, $event)">
         </label>
         <button class="btn btn-danger" @click="deleteTodo">删除</button>
+        <button class="btn btn-edit" @click="editTodo">编辑</button>
     </li>
 </template>
 
@@ -15,6 +17,19 @@ export default {
     methods: {
         deleteTodo() {
             this.$bus.$emit('deleteTodo', this.todo.id)
+        },
+        editTodo() {
+            this.$bus.$emit('editTodo', this.todo.id)
+            // DOM更新后再获取焦点
+            this.$nextTick(function () {
+                this.$refs.ipt.focus()
+            })
+        },
+        saveEdit(todo, e) {
+            this.$bus.$emit('saveEdit', todo.id, e.target.value)
+        },
+        changeDone() {
+            this.$bus.$emit('changeDone', this.todo.id)
         }
     },
 }
@@ -54,5 +69,9 @@ li:before {
 
 li:last-child {
     border-bottom: none;
+}
+
+input {
+    height: 20px;
 }
 </style>
