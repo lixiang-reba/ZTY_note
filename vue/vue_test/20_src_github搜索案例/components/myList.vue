@@ -31,7 +31,7 @@ export default {
 	},
 	mounted() {
 		this.$bus.$on('updataListData', (dataObj) => {
-			this.info = dataObj
+			this.info = { ...this.info, ...dataObj }
 		})
 	},
 }
