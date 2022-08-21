@@ -2,15 +2,16 @@
     <div>
         <ul>
             <li v-for="m in messageList">
-                <!-- <router-link :to="`/home/message/details?id=${m.id}&title=${m.title}`">{{ m.title }}</router-link> -->
                 <router-link :to="{
                     name: 'xiangqing',
-                    query: {
+                    params: {
                         id: m.id,
                         title: m.title
                     }
                 }">
                     {{ m.title }}
+                    <button @click="push(m)">push查看</button>
+                    <button @click="replace(m)">replace查看</button>
                 </router-link>
             </li>
         </ul>
@@ -29,6 +30,26 @@ export default {
                 { id: '002', title: '消息002' },
                 { id: '003', title: '消息003' }
             ]
+        }
+    },
+    methods: {
+        push(m) {
+            this.$router.push({
+                name: 'xiangqing',
+                params: {
+                    id: m.id,
+                    title: m.title
+                }
+            })
+        },
+        replace(m) {
+            this.$router.replace({
+                name: 'xiangqing',
+                params: {
+                    id: m.id,
+                    title: m.title
+                }
+            })
         }
     },
 }
