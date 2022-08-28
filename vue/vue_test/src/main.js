@@ -1,15 +1,12 @@
-//引入Vue
 import Vue from "vue";
-//引入App
+// import ElementUI from "element-ui";
+// import "element-ui/lib/theme-chalk/index.css";
 import App from "./App.vue";
-import router from "./router";
-import VueRouter from "vue-router";
-//关闭Vue的生产提示
-Vue.config.productionTip = false;
-Vue.use(VueRouter);
-//创建vm
+import { Button } from "element-ui";
+Vue.component(Button.name, Button);
+// Vue.use(ElementUI);
+
 new Vue({
   el: "#app",
   render: (h) => h(App),
-  router,
 });
